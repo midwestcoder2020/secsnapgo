@@ -51,6 +51,7 @@ secsnap/
 ├── daemon.py            # Main daemon loop and trigger logic
 ├── snapshot.py          # Snapshot assembler
 ├── reporter.py          # TXT + JSON output
+├── notifier.py          # Email alerting module
 ├── config.py            # Thresholds, whitelists, and email settings
 ├── collectors/
 │   ├── cpu.py           # CPU data collector
