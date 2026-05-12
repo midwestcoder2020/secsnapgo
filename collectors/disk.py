@@ -1,5 +1,6 @@
 import psutil
 import os
+import logging
 
 def collect():
     partitions = []
@@ -17,6 +18,9 @@ def collect():
             })
         except PermissionError:
             continue
+        except OSError as e:
+            logging.warning(f'Could not read partition {partition.mountpoint}: {e}')
+            continue
 
     io = psutil.disk_io_counters()
 
@@ -28,11 +32,12 @@ def collect():
                 try:
                     mtime = os.path.getmtime(fpath)
                     recent_files.append({'path': fpath, 'modified': mtime})
-                except Exception:
+                except (OSError, PermissionError) as e:
+                    logging.debug(f'Could not stat file {fpath}: {e}')
                     continue
         recent_files = sorted(recent_files, key=lambda x: x['modified'], reverse=True)[:10]
-    except Exception:
-        pass
+    except OSError as e:
+        logging.error(f'Error walking /tmp directory: {e}')
 
     return {
         'partitions': partitions,
