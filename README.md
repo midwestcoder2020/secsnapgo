@@ -104,7 +104,7 @@ For email alerts, additional dependencies may be required though smtplib is stan
 - DFIR and SOC-relevant incident response workflows
 
 ## Author
-Abiram R — Aspiring SOC Analyst | ISC2 CC Candidate
+Abiram R — Cybersecurity Analyst | ISC2 CC Candidate
 GitHub: https://github.com/abiramr44
 Medium: https://medium.com/@abiramr44
 LinkedIn: https://linkedin.com/in/abiramr44
