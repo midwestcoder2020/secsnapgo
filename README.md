@@ -1,6 +1,6 @@
 # SecSnap — Live Forensic Snapshot Daemon
 
-A Python-based background daemon that monitors system activity in real time and automatically captures forensic snapshots when suspicious behavior is detected. Built for SOC and DFIR workflows.
+A Golang port of Python-based background daemon that monitors system activity in real time and automatically captures forensic snapshots when suspicious behavior is detected. Built for SOC and DFIR workflows.
 
 ## Features
 - Real-time system monitoring across CPU, RAM, network, and disk
@@ -32,70 +32,41 @@ To reduce false positives, you can configure trusted IPs and processes that shou
 
 Edit config.py to define whitelists with examples like localhost IPs, system processes, and common web ports.
 
-## Email Alerting
-When a snapshot is triggered, SecSnap can send email alerts.
-
-### Setup
-Set environment variables before running:
-
-export EMAIL_ENABLED=true
-export EMAIL_SENDER=your@gmail.com
-export EMAIL_RECEIVER=your@gmail.com
-export EMAIL_PASSWORD=your_app_password_here
-export EMAIL_SMTP=smtp.gmail.com
-export EMAIL_PORT=587
-
-### Important — Use App Passwords, Not Your Main Password
-Never use your main Gmail password. Generate a dedicated App Password:
-1. Go to myaccount.google.com/apppasswords
-2. Select "Mail" and your device
-3. Copy the generated 16-character password
-4. Use that as EMAIL_PASSWORD
-
-App Passwords are revocable and isolated — if compromised, revoke without affecting your main account.
-
-### Why Not OAuth2?
-OAuth2 is the most secure option for production deployments. For a local forensic tool, App Passwords provide a reasonable security tradeoff. If deploying SecSnap in a team or enterprise environment, implement OAuth2 via the gmail-python library.
-
-### Configuration
-Add settings to config.py including enable toggle, SMTP server details, port, authentication credentials, and recipient address.
-
-### Alert Content
-Each email includes the timestamp of the trigger, the trigger condition (CPU, RAM, network, or disk), snapshot file paths for both TXT and JSON formats, and key metrics at the time of detection.
-
 ## Output
 Each triggered snapshot generates two timestamped files in snapshots/ (auto-created if missing):
 - snapshot_YYYYMMDD_HHMMSS.txt — human-readable forensic report
 - snapshot_YYYYMMDD_HHMMSS.json — structured data for downstream tooling
 
 ## Project Structure
-secsnap/
-├── daemon.py            # Main daemon loop and trigger logic
-├── snapshot.py          # Snapshot assembler
-├── reporter.py          # TXT + JSON output
-├── notifier.py          # Email alerting module
-├── config.py            # Thresholds, whitelists, and email settings
-├── collectors/
-│   ├── cpu.py           # CPU data collector
-│   ├── memory.py        # RAM data collector
-│   ├── network.py       # Network connections collector
-│   └── disk.py          # Disk activity collector
-└── snapshots/           # Generated snapshots output here
+
+* #### config.go #all whitelists and settings/thresholds
+* #### Utils.go collectors,snaphots, etc.
+* #### main.go main program
 
 ## Usage
-python3 daemon.py
+```bash
+go run main .go
+```
+#### or
+
+```bash
+go build .
+./main
+```
 
 ## Configuration
-Edit config.py to adjust thresholds, whitelists, and email settings including CPU threshold, RAM threshold, disk write threshold, suspicious ports list, whitelisted IPs, whitelisted processes, whitelisted ports, email alerts toggle, daemon interval, and cooldown seconds.
+Edit config.go to adjust thresholds, whitelists, and email settings including CPU threshold, RAM threshold, disk write threshold, suspicious ports list, whitelisted IPs, whitelisted processes, whitelisted ports, email alerts toggle, daemon interval, and cooldown seconds.
 
 ## Setup
-pip install psutil
 
-For email alerts, additional dependencies may be required though smtplib is standard.
+install dependencies with
+```bash
+go mid tidy 
+```
 
 ## Skills Demonstrated
-- Python daemon architecture
-- Real-time system monitoring with psutil
+- Golang daemon architecture
+- Real-time system monitoring with golang psutil
 - Forensic data collection across CPU, RAM, network, and disk
 - Threshold-based anomaly detection
 - Whitelist filtering for false positive reduction
@@ -104,7 +75,5 @@ For email alerts, additional dependencies may be required though smtplib is stan
 - DFIR and SOC-relevant incident response workflows
 
 ## Author
-Abiram R — Cybersecurity Analyst | ISC2 CC Candidate
-GitHub: https://github.com/abiramr44
-Medium: https://medium.com/@abiramr44
-LinkedIn: https://linkedin.com/in/abiramr44
+mwcsur@gmail.com / midwestcoder2020
+GitHub: https://github.com/midwestcoder2020
