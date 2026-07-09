@@ -1,4 +1,4 @@
-# SecSnap — Live Forensic Snapshot Daemon
+# SecSnapGo — Live Forensic Snapshot Daemon
 
 A Golang port of Python-based background daemon that monitors system activity in real time and automatically captures forensic snapshots when suspicious behavior is detected. Built for SOC and DFIR workflows.
 
