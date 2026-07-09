@@ -75,5 +75,5 @@ go mid tidy
 - DFIR and SOC-relevant incident response workflows
 
 ## Author
-mwcsur@gmail.com / midwestcoder2020
-GitHub: https://github.com/midwestcoder2020
+* mwcsur@gmail.com / midwestcoder2020
+* GitHub: https://github.com/midwestcoder2020
